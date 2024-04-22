@@ -1,15 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import CardDataStats from '../../components/CardDataStats';
 import ChartOne from '../../components/Charts/ChartOne';
 import ChartThree from '../../components/Charts/ChartThree';
 import TableOne from '../../components/Tables/TableOne';
 import DefaultLayout from '../../layout/DefaultLayout';
+import { fetchDataForUser } from '../../services/apiService'; // Import the service function
+import Loader from '../../common/Loader';
 
 const Overview: React.FC = () => {
+  interface UserData {
+  adsWatched: any;  
+  topics: any;
+  advertisers: any;
+  targetingReasons: any;
+}
+  const { userId } = useParams(); 
+  const [data, setData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  
+  useEffect(() => {
+    fetchDataForUser(userId)
+      .then(data => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Failed to fetch data:', error);
+        setError(error);
+        setLoading(false);
+      });
+  }, [userId]);
+
+  if (loading) return <Loader />;
+  if (error) return <p>Error loading data: {error.message}</p>;
+  function formatNumber(num: string): string {
+  const number = parseInt(num);
+  if (number < 1000) {
+    return number.toString();
+  } else if (number < 1000000) {
+    return (number / 1000).toFixed(2) + 'K'; 
+  } else {
+    return (number / 1000000).toFixed(2) + 'M'; 
+  }
+}
+
   return (
     <DefaultLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total Ads Collected" total="3.456K" >
+        <CardDataStats title="Total Ads Collected" total={data ? formatNumber(data.adsWatched) : ''} >
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -32,11 +73,16 @@ const Overview: React.FC = () => {
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <ChartOne title1='Ads Displayed' title2='Videos Watched' />
-        <ChartThree />
-        
+        {/* <ChartOne title1='Ads Displayed' title2='Videos Watched' /> */}
+        <ChartThree title='Ads Topics'  data={data? data.topics.topicsOccurence.map((topic: { topic: string; topic_count: string; }) => ({
+          item: topic.topic,
+          count: parseFloat(topic.topic_count)})) : ''} />
+        <ChartThree title='Targeting Reasons' data={data? data.targetingReasons.targetingReasons.map((reason: { normalized_reason: string; occurrences: string; }) => ({
+          item: reason.normalized_reason,
+          count: parseFloat(reason.occurrences)})) : ''} />
+   
         <div className="col-span-14 xl:col-span-12">
-          <TableOne />
+          <TableOne advertisers={data?.advertisers.topAdvertisers} />
         </div>
        
       </div>

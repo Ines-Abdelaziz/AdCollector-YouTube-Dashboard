@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
-import PageTitle from './components/PageTitle';
 import Terms from './pages/Terms';
 import Overview from './pages/Dashboard/Overview';
 import Faq from './pages/Faq';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import SignIn from './pages/Authentication/SignIn';
+import PageTitle from './components/PageTitle';
 
 
 function App() {
@@ -28,17 +28,18 @@ function App() {
   ) : (
     <>
       <Routes>
+
       <Route
-          path="/login"
-          element={
-            <>
-              <PageTitle title="Admin Sign In" />
-              <SignIn />
-            </>
-          }
-        />
+        path="/login"
+        element={
+          <>
+            <PageTitle title="Admin Sign In" />
+            <SignIn />
+          </>
+        }
+      />
         <Route
-          index
+          path='/:userId'
           element={
             <>
               <PageTitle title="Ads Dashboard" />
