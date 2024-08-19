@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-
+import 'regenerator-runtime/runtime';
 import Loader from './common/Loader';
 import Terms from './pages/Terms';
 import Overview from './pages/Dashboard/Overview';
@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import SignIn from './pages/Authentication/SignIn';
 import PageTitle from './components/PageTitle';
+import Ads from './pages/Dashboard/Ads'
 
 
 function App() {
@@ -46,6 +47,15 @@ function App() {
               <Overview />
             </>
           }
+        />
+        <Route 
+        path='/ads/:userId'
+        element={
+          <>
+           <PageTitle title="Ads " />
+            <Ads/>
+          </>
+        }
         />
         <Route
           path="/profile"

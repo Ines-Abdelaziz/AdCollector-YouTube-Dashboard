@@ -6,9 +6,13 @@ export const fetchDataForUser = async (userId:any) => {
     const adsWatchedPromise = axios.get(
       `https://ad-collector.onrender.com/user-stats/nbads/${userId}`,
     );
+    // Fetching the number of videos watched by the user
+    const vidsWatchedPromise= axios.get(
+      `https://ad-collector.onrender.com/user-stats/nbvids/${userId}`,
+    );
     // Fetching the topics occurrence by the user
-    const topicsPromise = axios.get(
-      `https://ad-collector.onrender.com/user-stats/topics/${userId}`,
+    const googleReasonsPromise = axios.get(
+      `https://ad-collector.onrender.com/user-stats/google-targeting-reasons/${userId}`,
     );
     // Fetching the top advertisers by the user
     const advertisersPromise = axios.get(
@@ -21,7 +25,8 @@ export const fetchDataForUser = async (userId:any) => {
 
     const results = await Promise.all([
       adsWatchedPromise,
-      topicsPromise,
+      vidsWatchedPromise,
+      googleReasonsPromise,
       advertisersPromise,
       targetingReasonsPromise,
     ]);
@@ -30,12 +35,46 @@ export const fetchDataForUser = async (userId:any) => {
     return {
       
       adsWatched: results[0].data.adsCollected,
-      topics: results[1].data,
-      advertisers: results[2].data,
-      targetingReasons: results[3].data,
+      vidsWatched:results[1].data.VidsWatched,
+      googleReasons: results[2].data,
+      advertisers: results[3].data,
+      targetingReasons: results[4].data,
     };
   } catch (error) {
     console.error('Failed to fetch data:', error);
     throw error; // Rethrow the error to handle it in the component
+  }
+};
+
+interface AdData {
+  advertiser: string;
+  advertiser_location: string;
+  topic: string;
+  google_information: string;
+  other_information: string;
+  advertiser_link: string;
+  adlink: string;
+}
+
+export const fetchUserAds = async (userId: any): Promise<AdData[]> => {
+  try {
+    const adsPromise =  axios.get(`https://ad-collector.onrender.com/user-stats/ads/${userId}`,);
+
+    const results = await Promise.all([adsPromise])
+    const ads= results[0].data.ads
+    console.log(ads)
+
+    return ads.map((ad: any) => ({
+      advertiser: ad.advertiser,
+      advertiser_location: ad.advertiser_location,
+      topic: ad.topic,
+      google_information: ad.google_information,
+      other_information: ad.other_information,
+      advertiser_link: ad.advertiser_link,
+      adlink: ad.adlink,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    throw error;
   }
 };
