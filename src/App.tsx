@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useParams, Navigate } from 'react-router-dom';
 import 'regenerator-runtime/runtime';
 import Loader from './common/Loader';
 import Terms from './pages/Terms';
@@ -9,8 +9,9 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import SignIn from './pages/Authentication/SignIn';
 import PageTitle from './components/PageTitle';
-import Ads from './pages/Dashboard/Ads'
-
+import Ads from './pages/Dashboard/Ads';
+import Analytics from './pages/Dashboard/Analytics';
+import { useSession } from './context/SessionContext'; // Import useSession hook
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -29,18 +30,21 @@ function App() {
   ) : (
     <>
       <Routes>
-
-      <Route
-        path="/login"
-        element={
-          <>
-            <PageTitle title="Admin Sign In" />
-            <SignIn />
-          </>
-        }
-      />
         <Route
-          path='/:userId'
+          path="/login"
+          element={
+            <>
+              <PageTitle title="Admin Sign In" />
+              <SignIn />
+            </>
+          }
+        />
+
+        {/* Route for handling userId and redirect */}
+        <Route path="/:userId" element={<HandleUserIdRedirect />} />
+
+        <Route
+          path="/overview"
           element={
             <>
               <PageTitle title="Ads Dashboard" />
@@ -48,14 +52,24 @@ function App() {
             </>
           }
         />
-        <Route 
-        path='/ads/:userId'
-        element={
-          <>
-           <PageTitle title="Ads " />
-            <Ads/>
-          </>
-        }
+
+        <Route
+          path="/ads"
+          element={
+            <>
+              <PageTitle title="Ads " />
+              <Ads />
+            </>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <>
+              <PageTitle title="Analytics " />
+              <Analytics />
+            </>
+          }
         />
         <Route
           path="/profile"
@@ -66,27 +80,24 @@ function App() {
             </>
           }
         />
-     <Route 
-            path="/terms"
-            element={
-                <>
-                <PageTitle title="Privacy Policy" />
-                <Terms />
-                </>
-            }
-     
-      />
-      <Route 
-            path="/faq"
-            element={
-                <>
-                <PageTitle title="Faq's" />
-                <Faq />
-                </>
-            }
-            />
-      
-      
+        <Route
+          path="/terms"
+          element={
+            <>
+              <PageTitle title="Privacy Policy" />
+              <Terms />
+            </>
+          }
+        />
+        <Route
+          path="/faq"
+          element={
+            <>
+              <PageTitle title="Faq's" />
+              <Faq />
+            </>
+          }
+        />
         <Route
           path="/settings"
           element={
@@ -96,13 +107,25 @@ function App() {
             </>
           }
         />
-    
-      
-      
-  
       </Routes>
     </>
   );
+}
+
+// New component to handle userId and session
+function HandleUserIdRedirect() {
+  const { userId } = useParams<{ userId: string }>(); // Correctly typed useParams
+  const { setSessionId } = useSession(); // Access setSessionId from context
+
+  useEffect(() => {
+    if (userId) {
+      console.log("User ID:", userId); // Debug log to check userId
+      setSessionId(userId); // Set session ID using the context setter
+      localStorage.setItem('sessionId', userId); // Optionally, store in local storage for persistence
+    }
+  }, [userId, setSessionId]);
+
+  return <Navigate to="/overview" replace />;
 }
 
 export default App;
