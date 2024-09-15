@@ -6,11 +6,14 @@ import './css/style.css';
 import './css/satoshi.css';
 import 'jsvectormap/dist/css/jsvectormap.css';
 import 'flatpickr/dist/flatpickr.min.css';
+import { SessionProvider } from './context/SessionContext';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Router>
+    <SessionProvider>
       <App />
+  </SessionProvider>,
     </Router>
   </React.StrictMode>,
 );

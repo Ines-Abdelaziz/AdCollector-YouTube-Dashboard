@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import CardDataStats from '../../components/CardDataStats';
-import ChartOne from '../../components/Charts/ChartOne';
 import ChartThree from '../../components/Charts/ChartThree';
 import TableOne from '../../components/Tables/TableOne';
 import DefaultLayout from '../../layout/DefaultLayout';
 import { fetchDataForUser } from '../../services/apiService'; // Import the service function
 import Loader from '../../common/Loader';
 
+import { useSession } from '../../context/SessionContext';
+
 const Overview: React.FC = () => {
+    const { sessionId } = useSession();
   interface UserData {
   vidsWatched:any;
   adsWatched: any;  
@@ -17,13 +18,13 @@ const Overview: React.FC = () => {
   advertisers: any;
   targetingReasons: any;
 }
-  const { userId } = useParams(); 
+//  const { userId } = useParams(); 
   const [data, setData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   
   useEffect(() => {
-    fetchDataForUser(userId)
+    fetchDataForUser(sessionId)
       .then(data => {
         setData(data);
         setLoading(false);
@@ -33,7 +34,7 @@ const Overview: React.FC = () => {
         setError(error);
         setLoading(false);
       });
-  }, [userId]);
+  }, [sessionId]);
 
   if (loading) return <Loader />;
   if (error) return <p>Error loading data: {error.message}</p>;
