@@ -9,7 +9,8 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import SignIn from './pages/Authentication/SignIn';
 import PageTitle from './components/PageTitle';
-import Ads from './pages/Dashboard/Ads'
+import Ads from './pages/Dashboard/Ads';
+import Home from './pages/Admin/Home'
 
 
 function App() {
@@ -96,7 +97,17 @@ function App() {
             </>
           }
         />
-    
+
+        <Route
+          path="/admin/home"
+          element={
+            <>
+              <PageTitle title="Home " />
+              <Home />
+            </>
+          }
+        />
+
       
       
   
