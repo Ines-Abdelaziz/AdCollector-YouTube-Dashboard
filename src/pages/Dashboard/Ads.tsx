@@ -16,7 +16,8 @@ interface AdData {
   google_information: string;
   other_information: [];
   advertiser_link: string;
-  adlink: string;
+  id: string;
+  brand:string;
 }
 
   const [data, setData] = useState<AdData[]>([]);
@@ -94,7 +95,7 @@ const opts = {
       },
       {
         Header: 'Video',
-        accessor: 'adlink',
+        accessor: 'id',
         Cell: ({ cell: { value } }) => <YouTube videoId={value} opts={opts} onReady={onPlayerReady}  />,
       },
     ],

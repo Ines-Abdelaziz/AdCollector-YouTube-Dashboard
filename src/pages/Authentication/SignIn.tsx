@@ -11,7 +11,7 @@ const SignIn: React.FC = () => {
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try {
-          const response = await fetch('https://ad-collector.onrender.com/admin/login', {
+          const response = await fetch('http://localhost:3000/admin/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ const SignIn: React.FC = () => {
           const data = await response.json();
           if (response.ok) {
             // Redirect to dashboard or another page upon successful login
-            window.location.href = '/';
+            window.location.href = '/admin/home';
           } else {
             // Display error message if login failed
             setError(data.error);

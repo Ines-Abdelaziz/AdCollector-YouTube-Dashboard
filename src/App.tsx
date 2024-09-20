@@ -11,6 +11,7 @@ import SignIn from './pages/Authentication/SignIn';
 import PageTitle from './components/PageTitle';
 import Ads from './pages/Dashboard/Ads';
 import Analytics from './pages/Dashboard/Analytics';
+import Home from './pages/Admin/Home'
 import { useSession } from './context/SessionContext'; // Import useSession hook
 
 function App() {
@@ -39,6 +40,17 @@ function App() {
             </>
           }
         />
+
+      <Route
+          path="/admin/home"
+          element={
+            <>
+              <PageTitle title="Home " />
+              <Home />
+            </>
+          }
+        />
+
 
         {/* Route for handling userId and redirect */}
         <Route path="/:userId" element={<HandleUserIdRedirect />} />
@@ -129,3 +141,5 @@ function HandleUserIdRedirect() {
 }
 
 export default App;
+
+

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import CardDataStats from '../../components/CardDataStats';
 import ChartThree from '../../components/Charts/ChartThree';
 import TableOne from '../../components/Tables/TableOne';
-import DefaultLayout from '../../layout/DefaultLayout';
+import AdminLayout from '../../layout/AdminLayout';
 import TableTopics from '../../components/Tables/TableAdminTopics';
 import { fetchDataForAdmin } from '../../services/apiService'; // Import the service function
 import Loader from '../../common/Loader';
@@ -54,7 +54,7 @@ const Home: React.FC = () => {
 }
 
   return (
-    <DefaultLayout>
+    <AdminLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
       
          <CardDataStats title="Total Videos Watched" total={data ? formatNumber(data.vidsWatched) : ''} >
@@ -114,13 +114,9 @@ const Home: React.FC = () => {
        
       </div>
       
-      {/* Table for Topics */}
-      <div className="col-span-14 xl:col-span-12">
-      <TableTopics topics={data?.topics || []} />
-      
-      </div>
+     
           
-    </DefaultLayout>
+    </AdminLayout>
   );
 };
 

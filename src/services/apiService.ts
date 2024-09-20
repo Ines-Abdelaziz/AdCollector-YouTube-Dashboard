@@ -4,7 +4,8 @@ interface PoliticalAd {
       advertiser: string,
       advertiserLink: string,
       advertiserLocation: string,
-      adLink: string,
+      brand : string,
+      id: string,
       strategyCombination: string,
 }
 
@@ -13,23 +14,26 @@ export const fetchDataForUser = async (userId:any) => {
   try {
     // Fetching the number of ads watched by the user
     const adsWatchedPromise = axios.get(
-      `https://ad-collector.onrender.com/user-stats/nbads/${userId}`,
+      `http://localhost:3000/user-stats/nbads/${userId}`,
     );
     // Fetching the number of videos watched by the user
     const vidsWatchedPromise= axios.get(
-      `https://ad-collector.onrender.com/user-stats/nbvids/${userId}`,
+      `http://localhost:3000/user-stats/nbvids/${userId}`,
     );
     // Fetching the topics occurrence by the user
     const googleReasonsPromise = axios.get(
-      `https://ad-collector.onrender.com/user-stats/google-targeting-reasons/${userId}`,
+      `http://localhost:3000/user-stats/google-targeting-reasons/${userId}`,
     );
     // Fetching the top advertisers by the user
     const advertisersPromise = axios.get(
-      `https://ad-collector.onrender.com/user-stats/top-advertisers/${userId}`,
+      `http://localhost:3000/user-stats/top-advertisers/${userId}`,
     );
     // Fetching targeting reasons by the user
     const targetingReasonsPromise = axios.get(
-      `https://ad-collector.onrender.com/user-stats/targeting-reasons/${userId}`,
+      `http://localhost:3000/user-stats/targeting-reasons/${userId}`,
+    );
+    const topicsPromise = axios.get(
+      `http://localhost:3000/user-stats/topics/${userId}`,
     );
 
     const results = await Promise.all([
@@ -38,6 +42,7 @@ export const fetchDataForUser = async (userId:any) => {
       googleReasonsPromise,
       advertisersPromise,
       targetingReasonsPromise,
+      topicsPromise,
     ]);
     console.log(results);
 
@@ -48,6 +53,59 @@ export const fetchDataForUser = async (userId:any) => {
       googleReasons: results[2].data,
       advertisers: results[3].data,
       targetingReasons: results[4].data,
+      topicsPromise : results[5].data,
+    };
+  } catch (error) {
+    console.error('Failed to fetch data:', error);
+    throw error; // Rethrow the error to handle it in the component
+  }
+};
+
+export const fetchDataForAdmin = async () => {
+  try {
+    // Fetching the number of ads watched by the user
+    const adsWatchedPromise = axios.get(
+      `http://localhost:3000/nbads/`,
+    );
+    // Fetching the number of videos watched by the user
+    const vidsWatchedPromise= axios.get(
+      `http://localhost:3000/nbvids/`,
+    );
+    // Fetching the topics occurrence by the user
+    const googleReasonsPromise = axios.get(
+      `http://localhost:3000/google-targeting-reasons/`,
+    );
+    // Fetching the top advertisers by the user
+    const advertisersPromise = axios.get(
+      `http://localhost:3000/top-advertisers/`,
+    );
+    // Fetching targeting reasons by the user
+    const targetingReasonsPromise = axios.get(
+      `http://localhost:3000/targeting-reasons/`,
+    );
+    const topicsPromise = axios.get(
+      `http://localhost:3000/topics/`,
+    );
+
+
+    const results = await Promise.all([
+      adsWatchedPromise,
+      vidsWatchedPromise,
+      googleReasonsPromise,
+      advertisersPromise,
+      targetingReasonsPromise,
+      topicsPromise,
+    ]);
+    console.log(results);
+
+    return {
+      
+      adsWatched: results[0].data.adsCollected,
+      vidsWatched:results[1].data.VidsWatched,
+      googleReasons: results[2].data,
+      advertisers: results[3].data,
+      targetingReasons: results[4].data,
+      topics : results[5].data,
     };
   } catch (error) {
     console.error('Failed to fetch data:', error);
@@ -58,7 +116,7 @@ export const fetchDataForUser = async (userId:any) => {
 export const fetchPolitical = async (userId: string): Promise<{ politicalAds: PoliticalAd[] }> => {
   try {
     const response = await axios.get(
-      `https://ad-collector.onrender.com/user-stats/political/${userId}`
+      `http://localhost:3000/user-stats/political/${userId}`
     );
 
     // Ensure valid response data format (JSON with an array in the "result" property)
@@ -67,12 +125,13 @@ export const fetchPolitical = async (userId: string): Promise<{ politicalAds: Po
     }
 
     // Extract and return an array of political ad objects
-    const politicalAds = response.data.result.map((item: { ad_id: any; advertiser: any; advertiser_link: any; advertiser_location: any; adlink: any; strategy_combination: any; }) => ({
+    const politicalAds = response.data.result.map((item: { ad_id: any; advertiser: any; advertiser_link: any; advertiser_location: any; id: any; strategy_combination: any;brand:any }) => ({
       adId: item.ad_id,
       advertiser: item.advertiser,
       advertiserLink: item.advertiser_link,
       advertiserLocation: item.advertiser_location,
-      adLink: item.adlink,
+      brand : item.brand,
+      id: item.id,
       strategyCombination: item.strategy_combination,
     }));
 
@@ -88,7 +147,7 @@ export const fetchPoliticalPlacement = async (userId: string): Promise<{
 }> => {
   try {
     const response = await axios.get(
-      `https://ad-collector.onrender.com/user-stats/political-placement/${userId}`
+      `http://localhost:3000/user-stats/political-placement/${userId}`
     );
 
     // Ensure valid response data format (JSON with an array in the "result" property)
@@ -115,7 +174,7 @@ export const fetchTargetingStrategies = async (userId: string): Promise<{
 }> => {
   try {
     const response = await axios.get(
-      `https://ad-collector.onrender.com/user-stats/targeting-strategies/${userId}`
+      `http://localhost:3000/user-stats/targeting-strategies/${userId}`
     );
 
     // Ensure response data is valid JSON
@@ -147,7 +206,7 @@ export const fetchTargetingStrategies = async (userId: string): Promise<{
 export const fetchTargetingCombinations = async (userId: string): Promise<{ [combination: string]: number }> => {
   try {
     const response = await axios.get(
-      `https://ad-collector.onrender.com/user-stats/targeting-combinations/${userId}`
+      `http://localhost:3000/user-stats/targeting-combinations/${userId}`
     );
 
     // Ensure valid response data format (JSON with an array in the "result" property)
@@ -173,7 +232,7 @@ export const fetchPlacementPerVideo = async (userId: string): Promise<{
 }> => {
   try {
     const response = await axios.get(
-      `https://ad-collector.onrender.com/user-stats/placement-pervideo/${userId}`
+      `http://localhost:3000/user-stats/placement-pervideo/${userId}`
     );
 
     // Ensure valid response data format (JSON with an array in the "result" property)
@@ -201,7 +260,7 @@ export const fetchPoliticalCount = async (userId: string): Promise<{
 }> => {
   try {
     const response = await axios.get(
-      `https://ad-collector.onrender.com/user-stats/count-political/${userId}`
+      `http://localhost:3000/user-stats/count-political/${userId}`
     );
 
     // Ensure valid response data format (JSON with an array in the "result" property)
@@ -242,12 +301,13 @@ interface AdData {
   google_information: string;
   other_information: [];
   advertiser_link: string;
-  adlink: string;
+  id: string;
+  brand : string;
 }
 
 export const fetchUserAds = async (userId: any): Promise<AdData[]> => {
   try {
-    const adsPromise = axios.get(`https://ad-collector.onrender.com/user-stats/ads/${userId}`);
+    const adsPromise = axios.get(`http://localhost:3000/user-stats/ads/${userId}`);
 
     const results = await Promise.all([adsPromise]);
     const ads = results[0].data.ads;
@@ -264,7 +324,8 @@ export const fetchUserAds = async (userId: any): Promise<AdData[]> => {
       google_information: ad.google_information,
       other_information: ad.other_information,
       advertiser_link: ad.advertiser_link,
-      adlink: ad.adlink,
+      brand : ad.brand,
+      id: ad.id,
     }));
   } catch (error) {
     console.error('Failed to fetch data:', error);

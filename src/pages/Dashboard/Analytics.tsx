@@ -24,7 +24,8 @@ interface PoliticalAd {
       advertiser: string,
       advertiserLink: string,
       advertiserLocation: string,
-      adLink: string,
+      brand : string,
+      id: string,
       strategyCombination: string,
 }
 interface PoliticalDataState {

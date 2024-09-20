@@ -7,7 +7,8 @@ interface PoliticalAdData {
       advertiser: string,
       advertiserLink: string,
       advertiserLocation: string,
-      adLink: string,
+      brand : string,
+      id: string,
       strategyCombination: string,
 }
 
@@ -71,7 +72,7 @@ const TablePoliticalAds: React.FC<TablePoliticalAdsProps> = ({ ads }) => {
           >
             <div className="flex items-center justify-center p-2.5 xl:p-5">
               <p className="text-black text-center dark:text-white">
-                <YouTube videoId={ad.adLink} opts={opts} onReady={onPlayerReady} />
+                <YouTube videoId={ad.id} opts={opts} onReady={onPlayerReady} />
               </p>
             </div>
 

@@ -8,8 +8,9 @@ interface AdData {
   topic: string;
   google_information: string;
   other_information: [];
+  brand : string;
   advertiser_link: string;
-  adlink: string;
+  id: string;
 }
 
 interface TableStateWithPagination extends TableState<AdData> {
