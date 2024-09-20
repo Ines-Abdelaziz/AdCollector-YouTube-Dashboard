@@ -11,7 +11,10 @@ import SignIn from './pages/Authentication/SignIn';
 import PageTitle from './components/PageTitle';
 import Ads from './pages/Dashboard/Ads';
 import Analytics from './pages/Dashboard/Analytics';
-import Home from './pages/Admin/Home'
+import AdminOverview from './pages/Admin/Overview';
+import AdminAnalytics from './pages/Admin/Analytics';
+import AdminAds from './pages/Admin/Ads';
+
 import { useSession } from './context/SessionContext'; // Import useSession hook
 
 function App() {
@@ -40,13 +43,30 @@ function App() {
             </>
           }
         />
-
       <Route
-          path="/admin/home"
+          path="/admin/overview"
           element={
             <>
-              <PageTitle title="Home " />
-              <Home />
+              <PageTitle title="Overview " />
+              <AdminOverview />
+            </>
+          }
+        />
+          <Route
+          path="/admin/analytics"
+          element={
+            <>
+              <PageTitle title="Analytics" />
+              <AdminAnalytics />
+            </>
+          }
+        />
+      <Route
+          path="/admin/ads"
+          element={
+            <>
+              <PageTitle title="Ads" />
+              <AdminAds />
             </>
           }
         />

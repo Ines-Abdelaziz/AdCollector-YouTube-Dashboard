@@ -4,11 +4,10 @@ import CardDataStats from '../../components/CardDataStats';
 import ChartThree from '../../components/Charts/ChartThree';
 import TableOne from '../../components/Tables/TableOne';
 import AdminLayout from '../../layout/AdminLayout';
-import TableTopics from '../../components/Tables/TableAdminTopics';
 import { fetchDataForAdmin } from '../../services/apiService'; // Import the service function
 import Loader from '../../common/Loader';
 
-const Home: React.FC = () => {
+const AdminAnalytics: React.FC = () => {
 
   interface TopicData {
     topic: string;
@@ -120,4 +119,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default AdminAnalytics;

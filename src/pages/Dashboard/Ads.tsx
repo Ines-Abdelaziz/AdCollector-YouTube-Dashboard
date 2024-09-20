@@ -13,8 +13,8 @@ interface AdData {
   advertiser: string;
   advertiser_location: string;
   topic: string;
-  google_information: string;
-  other_information: [];
+  google_information?: string;
+  other_information?: [];
   advertiser_link: string;
   id: string;
   brand:string;

@@ -178,7 +178,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                           <li>
                             <NavLink
-                              to="/admin/home"
+                              to="/admin/overview"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -189,7 +189,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                            <li>
                             <NavLink
-                              to="/analytics"
+                              to="/admin/analytics"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -200,7 +200,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                           <li>
                             <NavLink
-                              to="/ads"
+                              to="/admin/ads"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
@@ -216,37 +216,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   );
                 }}
               </SidebarLinkGroup>
-              {/* <!-- Menu Item Dashboard --> */}
-
-              {/* <!-- Menu Item Calendar --> */}
-           
-              {/* <!-- Menu Item Calendar --> */}
-
-              {/* <!-- Menu Item Profile --> */}
-              
-              {/* <!-- Menu Item Profile --> */}
-
-              {/* <!-- Menu Item Forms --> */}
-            
-              {/* <!-- Menu Item Forms --> */}
-
-              {/* <!-- Menu Item Tables --> */}
-              {/* <li>
-                <NavLink
-                  to="/faq"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('faq') && 'bg-graydark dark:bg-meta-4'
-                  }`}
-                >
-                
-                <svg className="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 22 22">
-    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.5 10a2.5 2.5 0 1 1 5 .2 2.4 2.4 0 0 1-2.5 2.4V14m0 3h0m9-5a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-  </svg>
-                  Faq's
-                </NavLink>
-              </li> */}
-              {/* <!-- Menu Item Tables --> */}
-            {/* Privacy Policy Item */}
                 <li>
                 <NavLink
                   to="/terms"
